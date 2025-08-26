@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Relic Quest — PvP Ruhlu Aksiyon ve Rekabet</title>
+    <meta name="description" content="Relic Quest: PvP ruhunu taşıyan, hızlı ve taktik odaklı aksiyon oyunu. Lonca savaşları, arenalar, nadir Relic avları ve e-spor rekabeti!" />
+    <meta name="theme-color" content="#0b0f19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='100%' height='100%' rx='12' fill='%230b0f19'/><path d='M32 8l16 12-6 20H22l-6-20z' fill='%23a0e9ff'/><circle cx='32' cy='32' r='6' fill='%23ffd166'/></svg>" />
+    <meta property="og:title" content="Relic Quest — PvP Ruhlu Aksiyon ve Rekabet" />
+    <meta property="og:description" content="Lonca savaşları, arenalar, nadir Relic avları ve e-spor rekabeti!" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='1'><stop offset='0' stop-color='%230b0f19'/><stop offset='1' stop-color='%23131a2a'/></linearGradient></defs><rect width='100%' height='100%' fill='url(%23g)'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='96' fill='%23a0e9ff' font-family='Outfit'>Relic Quest</text></svg>" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Relic Quest",
+        "genre": ["Action", "PvP", "Adventure"],
+        "description": "Relic Quest, PvP ruhunu taşıyan hızlı ve taktik odaklı aksiyon oyunu.",
+        "url": "https://relic.quest/",
+        "inLanguage": "tr",
+        "playMode": ["MultiPlayer", "CoOp"],
+        "applicationCategory": "Game",
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": 1248}
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#icerik">İçeriğe geç</a>
+
+    <header class="site-header" role="banner" aria-label="Relic Quest üst menü">
+      <div class="container header-inner">
+        <a href="#" class="brand" aria-label="Relic Quest ana sayfa">
+          <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="12"></rect><path d="M32 10l16 12-6 20H22l-6-20z"></path><circle cx="32" cy="32" r="6"></circle></svg>
+          <span class="brand-text">Relic Quest</span>
+        </a>
+
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menüyü aç/kapat">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <nav id="nav" class="nav" role="navigation" aria-label="Birincil">
+          <ul class="nav-list">
+            <li><a href="#ozellikler">Özellikler</a></li>
+            <li><a href="#fraksiyonlar">Fraksiyonlar</a></li>
+            <li><a href="#oynanis">Oynanış</a></li>
+            <li><a href="#arenalar">Arenalar</a></li>
+            <li><a href="#yol-haritasi">Yol Haritası</a></li>
+            <li><a href="#espors">E-Spor</a></li>
+            <li><a href="#topluluk">Topluluk</a></li>
+          </ul>
+          <div class="nav-ctas">
+            <button id="tema-toggle" class="btn ghost" aria-pressed="false">Tema</button>
+            <a href="#kayit" class="btn primary">Erken Kayıt</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+    <main id="icerik" tabindex="-1">
+      <section class="hero" aria-label="Tanıtım">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <h1>
+              Relic Quest
+              <span class="accent">PvP Ruhlu</span>
+              Aksiyon
+            </h1>
+            <p class="lead">Taktik, hız ve cesaretin harmanlandığı, nadir Relic'lerin peşinde nefes kesen bir mücadele. Loncanı kur, arenaya in ve tarih yaz.</p>
+            <div class="hero-ctas">
+              <a href="#oynanis" class="btn primary lg">Hemen Keşfet</a>
+              <button class="btn holo lg" data-open-video>Fragmanı İzle</button>
+            </div>
+            <ul class="badges" aria-label="Öne çıkanlar">
+              <li>Gerçek zamanlı PvP</li>
+              <li>Derin sınıf sistemi</li>
+              <li>Lonca savaşları</li>
+              <li>Sezonluk ligler</li>
+            </ul>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="relic-orb">
+              <div class="orb-core"></div>
+              <div class="orb-ring ring-1"></div>
+              <div class="orb-ring ring-2"></div>
+              <div class="orb-ring ring-3"></div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-stats" role="group" aria-label="Canlı istatistikler">
+          <div class="stat"><span class="num" data-count="250000">0</span><span class="label">Ön Kayıt</span></div>
+          <div class="stat"><span class="num" data-count="97">0</span><span class="label">Bölge Sunucusu</span></div>
+          <div class="stat"><span class="num" data-count="1200">0</span><span class="label">Eşzamanlı PvP</span></div>
+        </div>
+      </section>
+
+      <section id="ozellikler" class="section" aria-labelledby="ozellikler-baslik">
+        <div class="container">
+          <h2 id="ozellikler-baslik">Özellikler</h2>
+          <p class="section-lead">Relic Quest'i benzersiz kılan mekanikler ve modern kalite standartları.</p>
+          <div class="features-grid">
+            <article class="feature-card">
+              <div class="icon neon">⚔️</div>
+              <h3>Taktik PvP</h3>
+              <p>Çerçeve mükemmeliği ve net geri bildirimlerle adil, hızlı ve isabetli çatışmalar.</p>
+            </article>
+            <article class="feature-card">
+              <div class="icon neon">🌀</div>
+              <h3>Relic Güçleri</h3>
+              <p>Oyunun dengesini değiştiren, risk/ödül dengesiyle nadirleşen Relic'ler.</p>
+            </article>
+            <article class="feature-card">
+              <div class="icon neon">🛡️</div>
+              <h3>Sınıf Sinerjileri</h3>
+              <p>Savaşçı, Gölgemancer, Arkanist ve daha fazlası. Derin yetenek ağacı ve synerji.</p>
+            </article>
+            <article class="feature-card">
+              <div class="icon neon">🏟️</div>
+              <h3>Arena Çeşitliliği</h3>
+              <p>Çevresel tehlikeler, yükseklik avantajları ve etkileşimli hedeflerle farklılaşan alanlar.</p>
+            </article>
+            <article class="feature-card">
+              <div class="icon neon">🤝</div>
+              <h3>Lonca Savaşları</h3>
+              <p>3v3, 5v5 ve açık dünya Relic avlarında koordinasyonun gücünü göster.</p>
+            </article>
+            <article class="feature-card">
+              <div class="icon neon">🏆</div>
+              <h3>E-Spor Hazır</h3>
+              <p>Özel turnuva araçları, yayın dostu arayüz, gözlemci mod ve API.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="fraksiyonlar" class="section alt" aria-labelledby="fraksiyonlar-baslik">
+        <div class="container">
+          <h2 id="fraksiyonlar-baslik">Fraksiyonlar</h2>
+          <p class="section-lead">Her biri kendi felsefesi ve oyun tarzıyla dört eşsiz fraksiyon.</p>
+          <div class="factions">
+            <article class="faction">
+              <header>
+                <h3>Gündoğumu Tarikatı</h3>
+                <span class="tag">Destek / İnisiyatif</span>
+              </header>
+              <p>İlk hamlenin gücüne inanırlar. Yüksek hareket kabiliyeti ve açılış baskısı.</p>
+            </article>
+            <article class="faction">
+              <header>
+                <h3>Sonsuz Gece</h3>
+                <span class="tag">Gizlilik / Patlama</span>
+              </header>
+              <p>Gölgelerden saldırır. Konumlandırma ve anlık kararlar hayatidir.</p>
+            </article>
+            <article class="faction">
+              <header>
+                <h3>Arkan Konseyi</h3>
+                <span class="tag">Kontrol / Alan</span>
+              </header>
+              <p>Alan kontrolü ve kaynak cezalandırması ile oyunu yönlendirir.</p>
+            </article>
+            <article class="faction">
+              <header>
+                <h3>Demir Lonca</h3>
+                <span class="tag">Dayanıklılık / Çevre</span>
+              </header>
+              <p>Çevreyi silaha dönüştürür. Tuzağa alma, iteleme ve bariyer uzmanları.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="oynanis" class="section" aria-labelledby="oynanis-baslik">
+        <div class="container">
+          <h2 id="oynanis-baslik">Oynanış</h2>
+          <div class="gameplay-grid">
+            <div>
+              <ul class="checklist">
+                <li>Sunucu taraflı vurgu ile adil netcode</li>
+                <li>Milisaniye hassasiyetli hareket ve iptal pencereleri</li>
+                <li>Birden fazla hedefli, etkileşimli arena öğeleri</li>
+                <li>Sınıf ve Relic sinerjileri ile yükselen strateji</li>
+                <li>Sezonluk lig sistemi, sıralı eşleştirme ve MMR</li>
+              </ul>
+              <div class="cta-row">
+                <a class="btn secondary" href="#arenalar">Arenaları Gör</a>
+                <a class="btn ghost" href="#yol-haritasi">Gelişim Yol Haritası</a>
+              </div>
+            </div>
+            <div class="video-placeholder" role="img" aria-label="Oynanış fragmanı önizlemesi">
+              <button class="play" data-open-video aria-label="Fragmanı oynat">
+                <span>▶</span> Oynat
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="arenalar" class="section alt" aria-labelledby="arenalar-baslik">
+        <div class="container">
+          <h2 id="arenalar-baslik">Arenalar</h2>
+          <p class="section-lead">Her arena taktiksel bir bulmaca. Uyum sağlayan kazanır.</p>
+          <div class="carousel" data-carousel>
+            <button class="carousel-btn prev" aria-label="Önceki">‹</button>
+            <div class="carousel-track" role="group" aria-roledescription="slayt gösterisi">
+              <figure class="slide" data-bg="plasma" aria-label="Plazma Kanyonu">
+                <figcaption>Plazma Kanyonu</figcaption>
+              </figure>
+              <figure class="slide" data-bg="nebula" aria-label="Nebula Tapınağı">
+                <figcaption>Nebula Tapınağı</figcaption>
+              </figure>
+              <figure class="slide" data-bg="aurora" aria-label="Aurora İstasyonu">
+                <figcaption>Aurora İstasyonu</figcaption>
+              </figure>
+              <figure class="slide" data-bg="geo" aria-label="Jeotermik Çatlak">
+                <figcaption>Jeotermik Çatlak</figcaption>
+              </figure>
+            </div>
+            <button class="carousel-btn next" aria-label="Sonraki">›</button>
+            <div class="carousel-dots" aria-hidden="true"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="yol-haritasi" class="section" aria-labelledby="yol-haritasi-baslik">
+        <div class="container">
+          <h2 id="yol-haritasi-baslik">Yol Haritası</h2>
+          <ol class="timeline">
+            <li>
+              <div class="node">
+                <h3>Kapalı Alfa</h3>
+                <p>Çekirdek dövüş ve netcode doğrulaması. Geri bildirim odaklı iterasyon.</p>
+              </div>
+            </li>
+            <li>
+              <div class="node">
+                <h3>Açık Beta</h3>
+                <p>İlk sezon, dereceli eşleştirme, 6 arena ve 12 sınıf.</p>
+              </div>
+            </li>
+            <li>
+              <div class="node">
+                <h3>Sezon 1</h3>
+                <p>Yol haritası kozmetikleri, lonca sistemleri ve e-spor entegrasyonu.</p>
+              </div>
+            </li>
+            <li>
+              <div class="node">
+                <h3>Global Lansman</h3>
+                <p>Çok bölgeli sunucular, tam çapraz platform ve mod araçları.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="espors" class="section alt" aria-labelledby="espors-baslik">
+        <div class="container">
+          <h2 id="espors-baslik">E-Spor</h2>
+          <div class="esports-grid">
+            <div class="panel">
+              <h3>Turnuvalar</h3>
+              <ul>
+                <li>Aylık 50.000₺ ödüllü açık kupalar</li>
+                <li>Bölgesel ligler ve finaller</li>
+                <li>Özel yayıncı şov maçları</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <h3>Yayın Dostu</h3>
+              <ul>
+                <li>Gözlemci mod ve taktik görünüm</li>
+                <li>API ile canlı istatistikler</li>
+                <li>Gecikme kontrollü izleyici</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <h3>Rekabetçi Denge</h3>
+              <ul>
+                <li>Veri odaklı dengeleme</li>
+                <li>Periyodik metagame güncellemeleri</li>
+                <li>Hızlı düzeltme ve yasaklı listeler</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="topluluk" class="section" aria-labelledby="topluluk-baslik">
+        <div class="container">
+          <h2 id="topluluk-baslik">Topluluk</h2>
+          <div class="community">
+            <div class="cta">
+              <h3>Discord'a Katıl</h3>
+              <p>Geliştirici günlükleri, test anahtarları ve lonca bulma kanalları için aramıza katıl.</p>
+              <a class="btn primary" href="https://discord.com" target="_blank" rel="noopener noreferrer">Discord</a>
+            </div>
+            <ul class="highlights">
+              <li>
+                <strong>Geri Bildirim</strong>
+                <span>Harita ve sınıf dengelemesine katkı sağlayın.</span>
+              </li>
+              <li>
+                <strong>Topluluk Etkinlikleri</strong>
+                <span>Haftalık kostüm yarışmaları ve 1v1 ligleri.</span>
+              </li>
+              <li>
+                <strong>Modlama</strong>
+                <span>Özel kurallar ve arena varyantları paylaşın.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="kayit" class="section alt" aria-labelledby="kayit-baslik">
+        <div class="container">
+          <h2 id="kayit-baslik">Erken Kayıt</h2>
+          <form id="form-kayit" class="form" novalidate>
+            <div class="form-row">
+              <label for="ad">Ad</label>
+              <input id="ad" name="ad" type="text" placeholder="Adınız" required />
+              <small class="hint">En az 2 karakter.</small>
+            </div>
+            <div class="form-row">
+              <label for="email">E-posta</label>
+              <input id="email" name="email" type="email" inputmode="email" placeholder="ornek@mail.com" required />
+              <small class="hint">Doğru formatta e-posta.</small>
+            </div>
+            <div class="form-row inline">
+              <label class="checkbox">
+                <input type="checkbox" id="kvkk" required />
+                <span>KVKK aydınlatma metnini onaylıyorum</span>
+              </label>
+              <button class="btn primary" type="submit">Kaydol</button>
+            </div>
+            <p class="form-msg" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <section id="sss" class="section" aria-labelledby="sss-baslik">
+        <div class="container">
+          <h2 id="sss-baslik">Sık Sorulan Sorular</h2>
+          <div class="faq" data-accordion>
+            <details>
+              <summary>Relic Quest ücretsiz mi olacak?</summary>
+              <div class="content"><p>Relic Quest oynaması ücretsiz olacak, kozmetikler ve sezon biletleri isteğe bağlıdır.</p></div>
+            </details>
+            <details>
+              <summary>Çapraz platform desteklenecek mi?</summary>
+              <div class="content"><p>Evet, PC ve konsollar arasında çapraz eşleşme ve arkadaş sistemi planlanmaktadır.</p></div>
+            </details>
+            <details>
+              <summary>Rütbe sistemi nasıl çalışacak?</summary>
+              <div class="content"><p>Glicko tabanlı MMR ve lig küme sistemi (Bronz'dan Efsane'ye) kullanılacaktır.</p></div>
+            </details>
+            <details>
+              <summary>Hileye karşı önlemleriniz neler?</summary>
+              <div class="content"><p>Sunucu taraflı doğrulama, davranışsal tespit ve hızlı ban dalgaları uygulanır.</p></div>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="container footer-inner">
+        <div class="brand-col">
+          <a href="#" class="brand small">
+            <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="12"></rect><path d="M32 10l16 12-6 20H22l-6-20z"></path><circle cx="32" cy="32" r="6"></circle></svg>
+            <span class="brand-text">Relic Quest</span>
+          </a>
+          <p class="fine">© <span data-year></span> Relic Studios. Tüm hakları saklıdır.</p>
+        </div>
+        <nav class="footer-nav" aria-label="Alt menü">
+          <a href="#yol-haritasi">Yol Haritası</a>
+          <a href="#espors">E-Spor</a>
+          <a href="#kayit">Erken Kayıt</a>
+          <a href="#sss">SSS</a>
+        </nav>
+        <div class="socials">
+          <a class="social" href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter">𝕏</a>
+          <a class="social" href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
+          <a class="social" href="https://twitch.tv" target="_blank" rel="noopener" aria-label="Twitch">⧉</a>
+        </div>
+      </div>
+    </footer>
+
+    <dialog id="video-modal" class="modal" aria-label="Fragman">
+      <div class="modal-body">
+        <button class="modal-close" data-close aria-label="Kapat">✕</button>
+        <div class="responsive-media">
+          <iframe title="Relic Quest Fragman" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </dialog>
+
+    <script src="/script.js" defer></script>
+  </body>
+  </html>
+
