@@ -26,6 +26,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setupAccordion();
   setupForm();
   revealOnScroll();
+  setupPointerGlow();
   updateYear();
 });
 
@@ -38,6 +39,11 @@ function setupTheme() {
   }
   const btn = $('#tema-toggle');
   if (!btn) return;
+  // Başlangıç ARIA durumu
+  const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const currentTheme = document.documentElement.dataset.theme || (systemPrefersDark ? 'dark' : 'light');
+  document.documentElement.dataset.theme = currentTheme;
+  btn.setAttribute('aria-pressed', String(currentTheme === 'dark'));
   btn.addEventListener('click', () => {
     const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
     document.documentElement.dataset.theme = next;
@@ -53,7 +59,11 @@ function setupHeader() {
   if (!toggle || !nav) return;
   toggle.addEventListener('click', () => {
     state.navOpen = !state.navOpen;
-    nav.dataset.open = String(state.navOpen);
+    if (state.navOpen) {
+      nav.dataset.open = 'true';
+    } else {
+      delete nav.dataset.open;
+    }
     toggle.setAttribute('aria-expanded', String(state.navOpen));
   });
   $$('.nav-list a').forEach((a) => a.addEventListener('click', () => {
@@ -61,6 +71,24 @@ function setupHeader() {
     delete nav.dataset.open;
     toggle.setAttribute('aria-expanded', 'false');
   }));
+  // Dışarı tıklamada menüyü kapat
+  document.addEventListener('click', (e) => {
+    if (!state.navOpen) return;
+    if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+      state.navOpen = false;
+      delete nav.dataset.open;
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+  // Escape ile kapat
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && state.navOpen) {
+      state.navOpen = false;
+      delete nav.dataset.open;
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    }
+  });
   // Scroll spy
   const links = $$('.nav-list a');
   const sections = links.map((l) => document.querySelector(l.getAttribute('href'))).filter(Boolean);
@@ -68,7 +96,11 @@ function setupHeader() {
     const y = window.scrollY + 120;
     let activeIdx = 0;
     sections.forEach((s, i) => { if (s.offsetTop <= y) activeIdx = i; });
-    links.forEach((l, i) => l.classList.toggle('active', i === activeIdx));
+    links.forEach((l, i) => {
+      const on = i === activeIdx;
+      l.classList.toggle('active', on);
+      if (on) l.setAttribute('aria-current', 'page'); else l.removeAttribute('aria-current');
+    });
   };
   window.addEventListener('scroll', spy, { passive: true });
   spy();
@@ -105,8 +137,22 @@ function setupVideoModal() {
   const openers = $$('[data-open-video]');
   const closeBtn = modal ? modal.querySelector('[data-close]') : null;
   if (!modal) return;
-  const open = () => { modal.showModal(); };
-  const close = () => { modal.close(); };
+  const iframe = modal.querySelector('iframe');
+  const originalSrc = iframe ? iframe.src : '';
+  const open = () => {
+    modal.showModal();
+    if (iframe && !iframe.src) iframe.src = originalSrc;
+  };
+  const close = () => {
+    modal.close();
+    // YouTube oynatımı durdurmak için src'yi temizle
+    if (iframe) {
+      const current = iframe.src;
+      iframe.src = '';
+      // Hemen geri yükleme yapmıyoruz; tekrar açıldığında set edilir
+      setTimeout(() => { if (modal.open === false && !iframe.src) iframe.src = current; }, 200);
+    }
+  };
   openers.forEach((b) => b.addEventListener('click', open));
   if (closeBtn) closeBtn.addEventListener('click', close);
   modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
@@ -121,6 +167,7 @@ function setupCanvasBackground() {
   let width = (canvas.width = window.innerWidth);
   let height = (canvas.height = window.innerHeight);
   let pixels = [];
+  let running = true;
 
   function createField() {
     pixels = Array.from({ length: width * height > 1_500_000 ? 70 : 110 }, () => ({
@@ -151,7 +198,7 @@ function setupCanvasBackground() {
       ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
       ctx.fill();
     }
-    if (!state.prefersReduced) requestAnimationFrame(draw);
+    if (!state.prefersReduced && running) requestAnimationFrame(draw);
   }
 
   const onResize = () => {
@@ -162,6 +209,10 @@ function setupCanvasBackground() {
   window.addEventListener('resize', onResize);
   onResize();
   requestAnimationFrame(draw);
+  document.addEventListener('visibilitychange', () => {
+    running = !document.hidden;
+    if (running) requestAnimationFrame(draw);
+  });
 }
 
 // Carousel
@@ -178,6 +229,7 @@ function setupCarousel() {
   function update() {
     track.style.transform = `translateX(${-index * 100}%)`;
     dots.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-current', String(i === index)));
+    // Erişilebilir canlı metin (gerekirse)
   }
 
   function goTo(i) {
@@ -191,6 +243,7 @@ function setupCarousel() {
   slides.forEach((_, i) => {
     const b = document.createElement('button');
     b.type = 'button';
+    b.setAttribute('aria-label', `Slayt ${i + 1}`);
     b.addEventListener('click', () => goTo(i));
     dots.appendChild(b);
   });
@@ -202,6 +255,26 @@ function setupCarousel() {
   root.addEventListener('mouseenter', stop);
   root.addEventListener('mouseleave', auto);
   auto();
+
+  // Klavye ve görünürlük desteği
+  root.setAttribute('tabindex', '0');
+  root.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(index - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1); }
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop(); else auto();
+  });
+
+  // Basit dokunma sürükleme
+  let startX = 0; let dx = 0; let dragging = false;
+  root.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; dragging = true; stop(); }, { passive: true });
+  root.addEventListener('touchmove', (e) => { if (!dragging) return; dx = e.touches[0].clientX - startX; }, { passive: true });
+  root.addEventListener('touchend', () => {
+    if (!dragging) return; dragging = false;
+    if (Math.abs(dx) > 40) { if (dx > 0) goTo(index - 1); else goTo(index + 1); }
+    dx = 0; auto();
+  });
 }
 
 // Accordion
@@ -259,4 +332,21 @@ function revealOnScroll() {
 }
 
 function updateYear() { const y = $('[data-year]'); if (y) y.textContent = String(new Date().getFullYear()); }
+
+// İşaretçi parıltısı: öğe üzerinde konuma göre CSS değişkenleri güncelle
+function setupPointerGlow() {
+  const targets = $$('.feature-card, .faction, .panel, .video-placeholder');
+  if (!targets.length) return;
+  const setVars = (el, e) => {
+    const r = el.getBoundingClientRect();
+    const mx = e.clientX - r.left;
+    const my = e.clientY - r.top;
+    el.style.setProperty('--mx', mx + 'px');
+    el.style.setProperty('--my', my + 'px');
+  };
+  targets.forEach((el) => {
+    el.addEventListener('pointermove', (e) => setVars(el, e));
+    el.addEventListener('pointerleave', () => { el.style.removeProperty('--mx'); el.style.removeProperty('--my'); });
+  });
+}
 
