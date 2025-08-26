@@ -513,3 +513,76 @@ button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visibl
   #bg-canvas, .nav, .hero-visual, .carousel, .video-placeholder, .site-footer, .modal { display: none !important; }
   body { background: #fff; color: #000; }
 }
+
+/* -------- Ek Animasyonlar ve Parıltılar (Daha Dinamik Site) -------- */
+
+/* Gradient kayması */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Border akışı */
+@keyframes borderFlow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+/* Parıltı şeridi */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Pop efekti */
+@keyframes pop {
+  0% { transform: scale(0.9); opacity: 0; }
+  60% { transform: scale(1.04); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Başlık accent’ine hafif gradient animasyonu */
+.section h2::after { background-size: 200% 100%; animation: gradientShift 8s ease infinite; }
+
+/* Rozetlerin parıltılı kayması */
+.badges li {
+  position: relative;
+  overflow: hidden;
+  background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 5s linear infinite;
+}
+
+/* Kartlara animasyonlu sınır akışı (
+   mevcut ::after parıltısına ek olarak ::before ile uygulanır) */
+.feature-card::before, .faction::before, .panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(90deg, rgba(160,233,255,0.35), rgba(183,125,255,0.35), rgba(255,209,102,0.35), rgba(160,233,255,0.35));
+  background-size: 200% 100%;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  pointer-events: none;
+  animation: borderFlow 6s linear infinite;
+}
+
+/* Butonlara hafif yüzer ve tıklamada baskı efekti */
+.btn { transition: transform 160ms ease, filter 160ms ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(1px) scale(0.995); }
+
+/* Sayı patlaması için sınıf */
+.num.pop { animation: pop 500ms cubic-bezier(.2,.6,.2,1); }
+
+/* Hero başlığındaki accent metne gradient animasyonu */
+.hero h1 .accent {
+  background-size: 200% 100%;
+  animation: gradientShift 10s ease infinite;
+}
+
+/* Hafif parallax için perspective (JS tilt ile uyumlu) */
+.feature-card, .faction, .panel { transform-style: preserve-3d; perspective: 800px; }

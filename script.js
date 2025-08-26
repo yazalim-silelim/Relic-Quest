@@ -28,6 +28,7 @@ window.addEventListener('DOMContentLoaded', () => {
   revealOnScroll();
   setupPointerGlow();
   updateYear();
+  setupTiltParallax();
 });
 
 // Tema
@@ -120,7 +121,9 @@ function setupHeroCounters() {
         const tick = (t) => {
           const p = clamp((t - start) / duration, 0, 1);
           const eased = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(lerp(0, target, eased)).toLocaleString('tr-TR');
+          const val = Math.round(lerp(0, target, eased));
+          el.textContent = val.toLocaleString('tr-TR');
+          if (p > 0.95) el.classList.add('pop');
           if (p < 1) requestAnimationFrame(tick);
         };
         requestAnimationFrame(tick);
@@ -348,5 +351,46 @@ function setupPointerGlow() {
     el.addEventListener('pointermove', (e) => setVars(el, e));
     el.addEventListener('pointerleave', () => { el.style.removeProperty('--mx'); el.style.removeProperty('--my'); });
   });
+}
+
+// Kartlar için tilt ve hero parallax efekti
+function setupTiltParallax() {
+  const tiltTargets = $$('.feature-card, .faction, .panel');
+  tiltTargets.forEach((el) => {
+    let raf = 0;
+    const onMove = (e) => {
+      const r = el.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const dx = (e.clientX - cx) / r.width;
+      const dy = (e.clientY - cy) / r.height;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        el.style.transform = `rotateX(${(-dy * 6).toFixed(2)}deg) rotateY(${(dx * 6).toFixed(2)}deg) translateY(-6px)`;
+      });
+    };
+    const onLeave = () => {
+      cancelAnimationFrame(raf);
+      el.style.transform = '';
+    };
+    el.addEventListener('pointermove', onMove);
+    el.addEventListener('pointerleave', onLeave);
+  });
+
+  // Hero parallax (orb ve rings)
+  const orb = $('.relic-orb');
+  if (orb) {
+    let raf = 0;
+    window.addEventListener('pointermove', (e) => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const px = (e.clientX / w - 0.5) * 10;
+      const py = (e.clientY / h - 0.5) * 10;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        orb.style.transform = `translate3d(${px}px, ${py}px, 0)`;
+      });
+    }, { passive: true });
+  }
 }
 
