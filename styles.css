@@ -312,3 +312,204 @@ img, svg, video, canvas { display: block; max-width: 100%; }
   * { animation: none !important; transition: none !important; }
 }
 
+/* Ek görsel cilalar, temalar ve yardımcı sınıflar */
+
+/* Yeni değişkenler ve ince ayarlar */
+:root {
+  --glow-cyan: rgba(160, 233, 255, 0.55);
+  --glow-violet: rgba(183, 125, 255, 0.55);
+  --glow-gold: rgba(255, 209, 102, 0.55);
+  --header-h: 64px;
+}
+
+/* Metin seçimi ve scrollbar */
+::selection { background: rgba(160, 233, 255, 0.25); color: var(--text-0); }
+:root { scrollbar-color: var(--bg-3) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--bg-3), var(--bg-2)); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* Bağlantılar */
+a { text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+/* Bölüm başlıklarına accent şeridi */
+.section h2 { position: relative; display: inline-block; }
+.section h2::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  bottom: -8px;
+  width: 48px;
+  height: 3px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  box-shadow: 0 2px 14px rgba(160, 233, 255, 0.35);
+}
+
+/* Bölümlere grid-çizgi dokusu */
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(600px 200px at 10% -10%, rgba(160,233,255,0.06), transparent 60%),
+    radial-gradient(500px 180px at 110% 110%, rgba(183,125,255,0.05), transparent 60%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 120px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 80px);
+  pointer-events: none;
+  z-index: 0;
+}
+.section > .container { position: relative; z-index: 1; }
+
+/* Scroll offset - sticky header için */
+section { scroll-margin-top: var(--header-h); }
+
+/* Hero başlık efektleri */
+.hero h1 { background: linear-gradient(180deg, var(--text-0), var(--text-1)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero h1 .accent { background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; }
+
+/* Orb nefes animasyonu */
+.relic-orb { animation: float 6s ease-in-out infinite; }
+.orb-core { animation: pulse 2.4s ease-in-out infinite; }
+
+@keyframes pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 12px rgba(255,209,102,0.45)); } 50% { transform: translate(-50%, -50%) scale(1.1); filter: drop-shadow(0 0 22px rgba(255,209,102,0.8)); } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+/* Navigasyon underline kaydırma efekti */
+.nav-list a {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 200ms ease, color 200ms ease;
+}
+.nav-list a:hover, .nav-list a:focus { background-size: 100% 1px; }
+.nav-list a.active { background-size: 100% 1px; }
+
+/* Kart hover 3B ve parıltı */
+.feature-card { position: relative; transform-style: preserve-3d; will-change: transform; }
+.feature-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(600px 200px at var(--mx, 50%) var(--my, 50%), rgba(160,233,255,0.10), transparent 60%);
+  pointer-events: none;
+  transition: opacity 150ms ease;
+  opacity: 0;
+}
+.feature-card:hover::after { opacity: 1; }
+.feature-card:hover { transform: translateY(-6px) rotateX(0.6deg) rotateY(-0.6deg); }
+
+/* Faction ve panel kartlarına da aynı parıltı */
+.faction, .panel { position: relative; }
+.faction::after, .panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(500px 180px at var(--mx, 50%) var(--my, 50%), rgba(183,125,255,0.08), transparent 60%);
+  pointer-events: none;
+  opacity: 0; transition: opacity 150ms ease;
+}
+.faction:hover::after, .panel:hover::after { opacity: 1; }
+
+/* Buton ışıltı çizgisi */
+.btn { position: relative; overflow: hidden; }
+.btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -30%;
+  width: 30%;
+  height: 200%;
+  transform: rotate(25deg) translateX(-120%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transition: transform 500ms ease;
+}
+.btn:hover::after { transform: rotate(25deg) translateX(420%); }
+.btn:active { transform: translateY(1px); }
+
+/* Carousel kaydırma animasyonu yumuşatma */
+.carousel-track { transition: transform 500ms cubic-bezier(.2,.6,.2,1); }
+
+/* Video placeholder hover */
+.video-placeholder { position: relative; overflow: hidden; }
+.video-placeholder::after {
+  content: '';
+  position: absolute; inset: -20%;
+  background: radial-gradient(600px 240px at var(--mx, 60%) var(--my, 40%), rgba(160,233,255,0.10), transparent 60%);
+  pointer-events: none;
+  transition: opacity 200ms ease; opacity: 0;
+}
+.video-placeholder:hover::after { opacity: 1; }
+
+/* Footer hafif üst parlama */
+.site-footer { position: relative; }
+.site-footer::before { content: ''; position: absolute; left: 0; right: 0; top: -1px; height: 1px; background: linear-gradient(90deg, transparent, rgba(160,233,255,0.35), transparent); }
+
+/* Yardımcı sınıflar */
+.u-gradient-text { background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.u-center { display: grid; place-items: center; }
+.u-hide { display: none !important; }
+.u-muted { color: var(--muted) !important; }
+
+/* Gelişmiş cilalar ve override'lar */
+
+/* Tema ve arka plan geçişleri + hafif noise dokusu */
+body { transition: background-color 220ms ease, color 220ms ease; position: relative; }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(800px 300px at 10% -10%, rgba(160,233,255,0.05), transparent 60%),
+    radial-gradient(700px 260px at 110% 110%, rgba(183,125,255,0.04), transparent 60%),
+    radial-gradient(2px 2px at 0 0, rgba(255,255,255,0.04), transparent 20%) 0 0/12px 12px;
+  mix-blend-mode: soft-light;
+  opacity: 0.06;
+}
+
+/* Başlık gölgesi ve marka glows */
+.site-header { box-shadow: 0 2px 16px rgba(0,0,0,0.15); }
+.brand:hover .brand-mark path { filter: drop-shadow(0 0 8px rgba(160,233,255,0.6)); }
+
+/* Klavye erişilebilirliği */
+button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visible { outline: none; box-shadow: var(--ring); }
+
+/* Hero ek vurgular */
+.hero-stats .num { background: linear-gradient(180deg, var(--primary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* Carousel akıcılık */
+.carousel-track { transition: transform 500ms cubic-bezier(.2,.6,.2,1); will-change: transform; }
+
+/* Buton varyantları */
+.btn.success { --bg: linear-gradient(180deg, #0f2e26, #0c241e); border-color: rgba(124,242,196,0.5); color: var(--success); }
+.btn.danger { --bg: linear-gradient(180deg, #2e0f15, #240c11); border-color: rgba(255,92,122,0.5); color: var(--danger); }
+.btn.primary:hover { filter: brightness(1.05); }
+.btn.secondary:hover { filter: brightness(1.06); }
+.btn.success:hover { filter: brightness(1.06); }
+.btn.danger:hover { filter: brightness(1.04); }
+
+/* Ek animasyonlar */
+@keyframes sheen { 0% { transform: translateX(-120%) rotate(25deg); } 100% { transform: translateX(420%) rotate(25deg); } }
+@keyframes glow { 0%, 100% { filter: drop-shadow(0 0 0 rgba(160,233,255,0)); } 50% { filter: drop-shadow(0 0 10px rgba(160,233,255,0.5)); } }
+
+/* Hassas kontrast tercihleri */
+@media (prefers-contrast: more) {
+  :root { --stroke: rgba(255,255,255,0.25); }
+  .btn { border-width: 2px; }
+  .nav-list a { background-size: 100% 1px; }
+}
+
+/* Backdrop desteklenmiyorsa degrade ile yedekle */
+@supports not ((backdrop-filter: blur(8px))) {
+  .site-header { background: linear-gradient(180deg, rgba(10,14,23,0.92), rgba(10,14,23,0.7)); }
+}
+
+/* Baskı için sadeleştirme */
+@media print {
+  #bg-canvas, .nav, .hero-visual, .carousel, .video-placeholder, .site-footer, .modal { display: none !important; }
+  body { background: #fff; color: #000; }
+}
